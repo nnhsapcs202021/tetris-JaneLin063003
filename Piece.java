@@ -43,7 +43,17 @@ public final class Piece {
      */
     private Piece(Point[] points)
     {
-        // TODO: implement constructor
+        Point [] copyPoints = new Point [points.length];
+        
+        for (int i = 0; i < copyPoints.length; i++)
+        {
+            copyPoints[i] = new Point(points [i]);
+        }
+        
+        getWidth();
+        getHeight();
+        getSkirt();
+        
     }   
 
     /**
