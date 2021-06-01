@@ -25,6 +25,12 @@ public class BrainFactory
          *      the list.
          */
         
+        ArrayList <Brain> brain = new ArrayList <Brain> ();
+        Brain simple = new SimpleBrain ();
+        Brain small  = new SmallBrain ();
+        brain.add(simple);
+        brain.add(small);
         
+        return brain;
     }
 }

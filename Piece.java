@@ -43,17 +43,47 @@ public final class Piece {
      */
     private Piece(Point[] points)
     {
-        Point [] copyPoints = new Point [points.length];
-        
-        for (int i = 0; i < copyPoints.length; i++)
+        body = new Point [points.length];
+        for (int i = 0; i< points.length; i++)
         {
-            copyPoints[i] = new Point(points [i]);
+            int x = (int) points[i].getX();
+            int y = (int) points[i].getY();
+            body [i] = new Point (x,y);
+            
         }
         
-        getWidth();
-        getHeight();
-        getSkirt();
+        this.width = 0;
+        this.height = 0;
         
+        for (Point i : points)
+        {
+            if (i.x> this.width)
+            {
+                this.width = i.x;
+            }
+            if (i.y > this.height)
+            {
+                this.height = i.y;
+            }
+        }
+        
+        this.width += 1;
+        this.height += 1;
+        
+        this.skirt = new int [this.width];
+        int xIndex = 0;
+        for (int i = 0; i < skirt.length; i++)
+        {
+            skirt [i] = 3;
+        }
+        for (Point p : body)
+        {
+            xIndex = p.x;
+            if (p.y<skirt[xIndex])
+            {
+                skirt[xIndex] = p.y;
+            }
+        }
     }   
 
     /**
@@ -167,7 +197,17 @@ public final class Piece {
     public String toString()
     {
         String str = "";
+        str += "\n" + "Width: " + this.width + "\n" + "Height : " + this.height + "\n" + "Body : ";
         
+        for (Point i : body)
+        {
+            str += i + "";
+        }
+        str += "\n" + "Skirt : ";
+        for (int i : skirt)
+        {
+            str += i + " ";
+        }
         // TODO: build a string that contains all of the attributes of this Piece
         
         return str;
@@ -224,7 +264,10 @@ public final class Piece {
             Point[] rotatedPoints = new Point[piece.getBody().length];
             for(int i = 0; i < rotatedPoints.length; i++)
             {
-                rotatedPoints[i] = new Point(piece.getBody()[i]);
+                int rotY = piece.getBody()[i].y;
+                int rotX = piece.getBody()[i].x;
+                
+                rotatedPoints[i] = new Point(piece.height - 1 - rotY, rotX);
             }
 
             // TODO: step 1: reflect across the line y = x
